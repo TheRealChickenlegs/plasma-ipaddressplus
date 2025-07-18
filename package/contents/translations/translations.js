@@ -225,7 +225,7 @@ var translations = {
         currentInterface: "現在のインターフェース",
         disconnectedTextColor: "切断されたテキストの色：",
     },
-    zh: {
+    zh_CN: {
         localIP: "本地IP",
         localIPv6: "本地IPv6",
         publicIP: "公共IP",
@@ -249,7 +249,7 @@ var translations = {
         currentInterface: "当前接口",
         disconnectedTextColor: "断开连接的文本颜色：",
     },
-    zh-TW: {
+    zh_TW: {
         localIP: "區網IP",
         localIPv6: "區網IPv6",
         publicIP: "公開IP",

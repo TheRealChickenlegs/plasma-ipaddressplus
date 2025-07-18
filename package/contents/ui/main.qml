@@ -37,7 +37,18 @@ PlasmoidItem {
      */
 
     property int ipMode: 1 //Localv4 = 1, Localv6 = 3, Publicv4 = 4, Publicv6 = 5, VPN = 6
-    readonly property string currentLocale: Qt.locale().name.split("_")[0]
+    property string currentLocale: {
+        var locale = Qt.locale().name;
+        if (locale.startsWith("zh")) {
+            // For Chinese locales, return the full locale name
+            // e.g., "zh_CN" or "zh_TW"
+            return locale;
+        } else {
+            // Return only the language part for non-Chinese locales
+            return locale.split("_")[0];
+        }
+    }
+    readonly property string fullLocale: Qt.locale().name
     property bool isLoadingPublicIPv4: false
     property bool isLoadingVPNIP: false
     property bool isLoadingCountryv4: false
@@ -97,6 +108,8 @@ PlasmoidItem {
                 id: debugLabel
                 text: {
                     let debugInfo = [
+                        "currentLocale: " + currentLocale,
+                        "fullLocale: " + fullLocale,
                         "Public Country v4: " + (countryCodev4 || "none"),
                         "Current IP Mode: " + getIPMode(ipMode),
                         "LoadingPublicIPv4: " + isLoadingPublicIPv4,
@@ -580,6 +593,8 @@ PlasmoidItem {
 
     function currentState() {
         console.log("📊 State:", JSON.stringify({
+            currentLocale: currentLocale,
+            fullLocale: fullLocale,
             currentIPMode: getIPMode(ipMode),
             localIP: localIP,
             localIPv6: localIPv6,
@@ -588,10 +603,6 @@ PlasmoidItem {
             vpnIP: vpnIP,
             countryCodev4: countryCodev4,
             countryCodev6: countryCodev6,
-            isLoadingPublicIPv4: isLoadingPublicIPv4,
-            isLoadingVPNIP: isLoadingVPNIP,
-            isLoadingCountryv4: isLoadingCountryv4,
-            isLoadingCountryv6: isLoadingCountryv6
         }, null, 2))
     }
 
