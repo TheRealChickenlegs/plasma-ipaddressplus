@@ -354,14 +354,14 @@ PlasmoidItem {
 
     function getPublicIPv6() {
         if (debugMode) console.log("🌐 Requesting public IPv6")
-        executable.exec("ip -6 addr show scope global | grep inet6 | awk '{print $2}' | cut -d/ -f1 | head -n1")
+        executable.exec("ip -6 addr show scope global | grep -v 'inet6 fd' | grep -v 'inet6 fc' | grep -E 'tun0|vpn0|proton0' -A 1 | grep 'inet6' | awk '{print $2}' | cut -d/ -f1 | head -n1")
     }
 
     function getVPNIP() {
         if (!isLoadingVPNIP) {
             if (debugMode) console.log("🌐 Requesting VPN IP")
             isLoadingVPNIP = true
-            executable.exec("ifconfig tun0 | grep 'inet ' | awk '{print $2}' || ifconfig vpn0 | grep 'inet ' | awk '{print $2}'")
+            executable.exec("ip -o -4 addr show | grep -E 'tun0|vpn0|proton0' | awk '{print $4}' | cut -d'/' -f1 | head -n 1")
         }
     }
 
