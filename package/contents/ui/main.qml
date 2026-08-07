@@ -369,7 +369,7 @@ PlasmoidItem {
         if (!isLoadingCountryv4 && publicIP) {
             if (debugMode) console.log("🌍 Requesting country code for IPv4:", publicIP)
             isLoadingCountryv4 = true
-            executable.exec("curl -s --max-time 5 https://ipapi.co/" + publicIP + "/country")
+            executable.exec("curl -s https://api.country.is/" + publicIP + " | jq -r '.country'")
         }
     }
 
@@ -377,7 +377,7 @@ PlasmoidItem {
         if (!isLoadingCountryv6 && publicIPv6) {
             if (debugMode) console.log("🌍 Requesting country code for IPv6:", publicIPv6)
             isLoadingCountryv6 = true
-            executable.exec("curl -s --max-time 5 https://ipapi.co/" + publicIPv6 + "/country")
+            executable.exec("curl -s https://api.country.is/" + publicIPv6 + " | jq -r '.country'")
         }
     }
 
