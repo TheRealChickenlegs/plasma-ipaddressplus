@@ -313,6 +313,27 @@ PlasmoidItem {
     }
 
     Component.onCompleted: {
+        // === INITIALISATION DES VALEURS PAR DÉFAUT ===
+        // (Plasma ne les charge pas automatiquement depuis main.xml)
+        if (plasmoid.configuration.showFlag === undefined) {
+            plasmoid.configuration.showFlag = true;   // Valeur par défaut (main.xml)
+        }
+        if (plasmoid.configuration.showFlagOnly === undefined) {
+            plasmoid.configuration.showFlagOnly = false; // Valeur par défaut (main.xml)
+        }
+        if (plasmoid.configuration.textColor === undefined) {
+            plasmoid.configuration.textColor = "#00000000"; // Transparent (par défaut)
+        }
+        if (plasmoid.configuration.showTypeLabel === undefined) {
+            plasmoid.configuration.showTypeLabel = true;
+        }
+        if (plasmoid.configuration.noIPMessage === undefined) {
+            plasmoid.configuration.noIPMessage = "Disconnected";
+        }
+        if (plasmoid.configuration.disconnectedTextColor === undefined) {
+            plasmoid.configuration.disconnectedTextColor = "#FF0000";
+        }
+
         if (debugMode) {
             console.log("🎬 Widget startup")
         }
@@ -454,7 +475,7 @@ PlasmoidItem {
                     if (debugMode) console.log("❌ No public IP received")
                 }
             }
-            else if (cmd.indexOf("https://ipapi.co/" + publicIP + "/country") !== -1) {
+            else if (cmd.indexOf("https://api.country.is/" + publicIP) !== -1) {
                 if (isLoadingCountryv4) {
                     isLoadingCountryv4 = false
                     var newCountryv4 = stdout.trim()
@@ -467,7 +488,7 @@ PlasmoidItem {
                     }
                 }
             }
-            else if (cmd.indexOf("https://ipapi.co/" + publicIPv6 + "/country") !== -1) {
+            else if (cmd.indexOf("https://api.country.is/" + publicIPv6) !== -1) {
                 if (isLoadingCountryv6) {
                     isLoadingCountryv6 = false
                     var newCountryv6 = stdout.trim()
@@ -505,10 +526,22 @@ PlasmoidItem {
      * Usage: Called by different widget components
      * Interactions: Coordinate between UI and data components
      */
-    function shouldShowFlag() {
+    /* function shouldShowFlag() {
         return ((plasmoid.configuration.showFlagOnly || plasmoid.configuration.showFlag)
                 && countryCodev4.length === 2 && ipMode === 3) || ((plasmoid.configuration.showFlagOnly || plasmoid.configuration.showFlag)
         && countryCodev6.length === 2 && ipMode === 4);
+    } */
+    function shouldShowFlag() {
+        var showFlag = plasmoid.configuration.showFlag;
+        var showFlagOnly = plasmoid.configuration.showFlagOnly;
+
+        if (showFlag === undefined) showFlag = true; // default from main.xml
+        if (showFlagOnly === undefined) showFlagOnly = false; /// default from main.xml
+
+        var flagEnabled = showFlagOnly || showFlag;
+
+        return (flagEnabled && countryCodev4.length === 2 && ipMode === 3) ||
+            (flagEnabled && countryCodev6.length === 2 && ipMode === 4);
     }
 
     function updateData() {
