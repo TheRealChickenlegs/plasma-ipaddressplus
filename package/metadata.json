@@ -2,7 +2,7 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "xLaMbChOpSx",
+                "Name": "TheRealChickenlegs",
                 "Email": "ryanskungfu@me.com"
             },
             {
@@ -14,8 +14,8 @@
         "Icon": "network-wired",
         "Id": "org.kde.plasma.ipaddressplus",
         "Name": "IP Address Display Plus",
-        "Version": "0.9",
-        "Website": "https://github.com/xLaMbChOpSx/plasma-ipaddressplus"
+        "Version": "0.9.2",
+        "Website": "https://github.com/TheRealChickenlegs/plasma-ipaddressplus"
     },
     "X-KDE-ServiceTypes": "Plasma/Applet",
     "X-Plasma-API": "declarativeappletscript",
